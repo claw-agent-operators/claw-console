@@ -9,8 +9,9 @@ Web dashboard for [claw](https://github.com/claw-agent-operators/claw). Connects
 | Health | `WS /ws/health` | Live health tiles per installation, auto-refresh |
 | Agents | `GET /api/v1/ps` | Running instances with transport badges, 5s polling |
 | Watch | `WS /ws/watch/:group` | Live message feed with group picker and transport badge |
-| REPL | `WS /ws/agent/:group` | Multi-turn browser REPL with collapsible log drawer |
-| Sessions | `GET /api/v1/sessions` | Session history per group |
+| Logs | `WS /ws/logs/:group` | Container stdout/stderr stream, tails most recent container |
+| REPL | `WS /ws/agent/:group` | Multi-turn browser REPL with click-to-copy session ID |
+| Sessions | `GET /api/v1/sessions` | Day-based history with resumable Claude session UUIDs, click-to-copy |
 | Groups | `GET /api/v1/groups` | Group cards with transport and architecture badges |
 
 ## Stack
@@ -72,7 +73,7 @@ src/
 ├── lib/
 │   ├── api.ts                      # fetchJSON(), types (Instance, Group, Session, etc.)
 │   ├── ws.ts                       # createWS() — WebSocket factory with auth
-│   ├── jid.ts                      # transportFromJID(), TransportBadge metadata
+│   ├── jid.ts                      # transportFromJID(), transport metadata
 │   └── utils.ts                    # cn() — Tailwind class merge utility
 ├── store/
 │   ├── connection.ts               # Zustand: API URL + token (localStorage)
@@ -95,15 +96,16 @@ src/
 │   │   ├── WatchFeed.tsx           # WS stream + transport badge in header
 │   │   ├── MessageBubble.tsx       # timestamp + sender + content
 │   │   └── GroupPicker.tsx         # shared group selector (folder, arch, jid)
+│   ├── logs/
+│   │   └── LogFeed.tsx             # WS stream + transport badge + status indicator
 │   ├── repl/
 │   │   ├── Repl.tsx                # WS multi-turn with session threading
 │   │   ├── ReplInput.tsx           # prompt input (Enter to send)
 │   │   ├── ReplMessage.tsx         # user/assistant turn display
-│   │   ├── SessionBadge.tsx        # session ID badge
-│   │   └── LogDrawer.tsx           # collapsible container log panel
+│   │   └── SessionBadge.tsx        # click-to-copy session ID badge
 │   ├── sessions/
 │   │   ├── SessionList.tsx         # React Query per-group table
-│   │   └── SessionRow.tsx          # session ID, last active, summary
+│   │   └── SessionRow.tsx          # click-to-copy session ID, resumable badge
 │   └── groups/
 │       ├── GroupList.tsx           # React Query card grid
 │       └── GroupCard.tsx           # name, transport badge, arch badge, trigger
@@ -111,6 +113,7 @@ src/
     ├── HealthView.tsx
     ├── AgentsView.tsx
     ├── WatchView.tsx
+    ├── LogsView.tsx
     ├── ReplView.tsx
     ├── SessionsView.tsx
     └── GroupsView.tsx
