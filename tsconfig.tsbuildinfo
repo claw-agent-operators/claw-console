@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/api.ts","./src/main.tsx","./src/vite-env.d.ts","./src/components/agentsview.tsx","./src/components/grouppicker.tsx","./src/components/groupsview.tsx","./src/components/healthview.tsx","./src/components/layout.tsx","./src/components/replview.tsx","./src/components/sessionsview.tsx","./src/components/watchview.tsx"],"version":"5.8.3"}
