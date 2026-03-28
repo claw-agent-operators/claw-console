@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
-import { Activity, Eye, Heart, MessageSquare, ScrollText, Terminal, Users } from 'lucide-react'
+import { Activity, Coins, Eye, Heart, MessageSquare, ScrollText, Terminal, Users } from 'lucide-react'
 
 const links = [
   { to: '/health', label: 'Health', icon: Heart },
@@ -10,6 +10,7 @@ const links = [
   { to: '/repl', label: 'REPL', icon: Terminal },
   { to: '/sessions', label: 'Sessions', icon: MessageSquare },
   { to: '/groups', label: 'Groups', icon: Users },
+  { to: '/usage', label: 'Usage', icon: Coins },
 ]
 
 export function Sidebar() {
