@@ -10,6 +10,7 @@ import { WatchView } from '@/views/WatchView'
 import { ReplView } from '@/views/ReplView'
 import { SessionsView } from '@/views/SessionsView'
 import { GroupsView } from '@/views/GroupsView'
+import { LogsView } from '@/views/LogsView'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 5000 } },
@@ -45,6 +46,7 @@ export function App() {
           <Route path="repl" element={<ReplView />} />
           <Route path="sessions" element={<SessionsView />} />
           <Route path="groups" element={<GroupsView />} />
+          <Route path="logs" element={<LogsView />} />
         </Route>
       </Routes>
     </QueryClientProvider>

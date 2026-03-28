@@ -1,14 +1,23 @@
-import { transportFromJID, TRANSPORT_META } from '@/lib/jid'
-import { cn } from '@/lib/utils'
+import { transportFromJID } from '@/lib/jid'
+
+const BADGE_STYLES: Record<string, { label: string; icon: string; style: React.CSSProperties }> = {
+  whatsapp: { label: 'WhatsApp', icon: '💬', style: { background: '#16a34a' } },
+  telegram: { label: 'Telegram', icon: '✈️', style: { background: '#3b82f6' } },
+  signal:   { label: 'Signal',   icon: '🔒', style: { background: '#4f46e5' } },
+  discord:  { label: 'Discord',  icon: '🎮', style: { background: '#9333ea' } },
+}
 
 export function TransportBadge({ jid }: { jid: string }) {
   if (!jid) return null
   const transport = transportFromJID(jid)
-  if (transport === 'unknown') return null
-  const meta = TRANSPORT_META[transport]
+  const meta = BADGE_STYLES[transport]
+  if (!meta) return null
 
   return (
-    <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium text-white', meta.color)}>
+    <span
+      className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium text-white"
+      style={meta.style}
+    >
       <span>{meta.icon}</span>
       {meta.label}
     </span>

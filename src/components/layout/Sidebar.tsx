@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
-import { Activity, Eye, Heart, MessageSquare, Terminal, Users } from 'lucide-react'
+import { Activity, Eye, Heart, MessageSquare, ScrollText, Terminal, Users } from 'lucide-react'
 
 const links = [
   { to: '/health', label: 'Health', icon: Heart },
   { to: '/agents', label: 'Agents', icon: Activity },
   { to: '/watch', label: 'Watch', icon: Eye },
+  { to: '/logs', label: 'Logs', icon: ScrollText },
   { to: '/repl', label: 'REPL', icon: Terminal },
   { to: '/sessions', label: 'Sessions', icon: MessageSquare },
   { to: '/groups', label: 'Groups', icon: Users },
