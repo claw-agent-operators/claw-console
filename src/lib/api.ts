@@ -1,42 +1,23 @@
-const BASE = import.meta.env.VITE_API_URL ?? ''
+import { useConnectionStore } from '@/store/connection'
 
-function authHeaders(): Record<string, string> {
-  const token = new URLSearchParams(window.location.search).get('token')
-  if (token) return { Authorization: `Bearer ${token}` }
-  return {}
+function getBase(): string {
+  return useConnectionStore.getState().apiUrl || ''
 }
 
-function wsUrl(path: string): string {
-  const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const base = BASE || `${proto}//${window.location.host}`
-  const url = new URL(path, base.replace(/^http/, 'ws'))
-  const token = new URLSearchParams(window.location.search).get('token')
-  if (token) url.searchParams.set('token', token)
-  return url.toString()
+function getHeaders(): Record<string, string> {
+  const { token } = useConnectionStore.getState()
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (token) headers['Authorization'] = `Bearer ${token}`
+  return headers
 }
 
 export async function fetchJSON<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, { headers: authHeaders() })
+  const res = await fetch(`${getBase()}${path}`, { headers: getHeaders() })
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
     throw new Error(body.message ?? `${res.status} ${res.statusText}`)
   }
   return res.json()
-}
-
-export function openWS(
-  path: string,
-  onMessage: (data: Record<string, unknown>) => void,
-  onClose?: () => void,
-): WebSocket {
-  const ws = new WebSocket(wsUrl(path))
-  ws.onmessage = (e) => {
-    try {
-      onMessage(JSON.parse(e.data))
-    } catch { /* ignore non-JSON */ }
-  }
-  ws.onclose = () => onClose?.()
-  return ws
 }
 
 // Types matching the claw API spec

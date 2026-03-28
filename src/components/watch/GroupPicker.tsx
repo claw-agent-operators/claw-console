@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { fetchJSON, Group } from '../api'
+import { useQuery } from '@tanstack/react-query'
+import { fetchJSON, type Group } from '@/lib/api'
 
 interface Props {
   value: string
@@ -7,13 +7,12 @@ interface Props {
 }
 
 export function GroupPicker({ value, onChange }: Props) {
-  const [groups, setGroups] = useState<Group[]>([])
+  const { data } = useQuery({
+    queryKey: ['groups'],
+    queryFn: () => fetchJSON<{ groups: Group[] }>('/api/v1/groups'),
+  })
 
-  useEffect(() => {
-    fetchJSON<{ groups: Group[] }>('/api/v1/groups')
-      .then((d) => setGroups(d.groups ?? []))
-      .catch(() => {})
-  }, [])
+  const groups = data?.groups ?? []
 
   return (
     <select
@@ -22,7 +21,7 @@ export function GroupPicker({ value, onChange }: Props) {
         const g = groups.find((g) => g.folder === e.target.value)
         if (g) onChange(g.folder, g.arch)
       }}
-      style={{ background: '#222', color: '#eee', border: '1px solid #444', borderRadius: 4, padding: '0.4rem 0.6rem', fontSize: '0.85rem' }}
+      className="h-9 rounded-md border border-input bg-background px-3 text-sm"
     >
       <option value="">Select group...</option>
       {groups.map((g) => (
