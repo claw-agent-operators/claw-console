@@ -21,7 +21,7 @@ export function Repl() {
 
   useEffect(() => {
     if (!group) return
-    setTurns([])
+    setTurns([]) // eslint-disable-line react-hooks/set-state-in-effect -- intentional reset on group change
     setSessionId('')
 
     const ws = createWS(`/ws/agent/${group}?arch=${arch}`, (msg) => {

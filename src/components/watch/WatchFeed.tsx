@@ -18,7 +18,7 @@ export function WatchFeed() {
 
   useEffect(() => {
     if (!group) return
-    setMessages([])
+    setMessages([]) // eslint-disable-line react-hooks/set-state-in-effect -- intentional reset on group change
     const ws = createWS(`/ws/watch/${group}?arch=${arch}&lines=50`, (msg) => {
       if (msg.type === 'message') {
         setMessages((prev) => [...prev, msg as unknown as Message])
