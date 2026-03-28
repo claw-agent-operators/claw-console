@@ -1,5 +1,6 @@
 import type { Instance } from '@/lib/api'
 import { Badge } from '@/components/ui/badge'
+import { TransportBadge } from '@/components/common/TransportBadge'
 
 export function AgentRow({ instance }: { instance: Instance }) {
   return (
@@ -7,8 +8,11 @@ export function AgentRow({ instance }: { instance: Instance }) {
       <td className="p-3 font-mono text-xs">{instance.id}</td>
       <td className="p-3 text-sm">{instance.arch}</td>
       <td className="p-3 text-sm">
-        {instance.group}
-        {instance.is_main && <Badge variant="default" className="ml-2 text-[10px]">main</Badge>}
+        <span className="flex items-center gap-2">
+          {instance.group}
+          <TransportBadge jid={instance.jid} />
+          {instance.is_main && <Badge variant="default" className="text-[10px]">main</Badge>}
+        </span>
       </td>
       <td className="p-3">
         <Badge variant={instance.state === 'running' ? 'pass' : 'warn'}>

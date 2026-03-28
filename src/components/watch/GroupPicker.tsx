@@ -3,7 +3,7 @@ import { fetchJSON, type Group } from '@/lib/api'
 
 interface Props {
   value: string
-  onChange: (group: string, arch: string) => void
+  onChange: (group: string, arch: string, jid: string) => void
 }
 
 export function GroupPicker({ value, onChange }: Props) {
@@ -19,7 +19,7 @@ export function GroupPicker({ value, onChange }: Props) {
       value={value}
       onChange={(e) => {
         const g = groups.find((g) => g.folder === e.target.value)
-        if (g) onChange(g.folder, g.arch)
+        if (g) onChange(g.folder, g.arch, g.jid)
       }}
       className="h-9 rounded-md border border-input bg-background px-3 text-sm"
     >

@@ -4,6 +4,7 @@ import { GroupPicker } from '@/components/watch/GroupPicker'
 import { ReplMessage } from './ReplMessage'
 import { ReplInput } from './ReplInput'
 import { SessionBadge } from './SessionBadge'
+import { LogDrawer } from './LogDrawer'
 
 interface Turn {
   role: 'user' | 'assistant'
@@ -16,6 +17,7 @@ export function Repl() {
   const [turns, setTurns] = useState<Turn[]>([])
   const [streaming, setStreaming] = useState(false)
   const [sessionId, setSessionId] = useState('')
+  const [logsOpen, setLogsOpen] = useState(false)
   const wsRef = useRef<WebSocket | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -56,7 +58,7 @@ export function Repl() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 mb-4">
-        <GroupPicker value={group} onChange={(g, a) => { setGroup(g); setArch(a) }} />
+        <GroupPicker value={group} onChange={(g, a, _j) => { setGroup(g); setArch(a) }} />
         <SessionBadge sessionId={sessionId} />
       </div>
       {!group && <p className="text-sm text-muted-foreground">Select a group to start a REPL session.</p>}
@@ -68,6 +70,14 @@ export function Repl() {
         <div ref={bottomRef} />
       </div>
       {group && <ReplInput onSend={send} disabled={streaming} />}
+      {group && (
+        <LogDrawer
+          group={group}
+          arch={arch}
+          open={logsOpen}
+          onToggle={() => setLogsOpen((v) => !v)}
+        />
+      )}
     </div>
   )
 }

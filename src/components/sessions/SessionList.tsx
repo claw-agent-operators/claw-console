@@ -19,7 +19,7 @@ export function SessionList() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-4">
-        <GroupPicker value={group} onChange={(g, a) => { setGroup(g); setArch(a) }} />
+        <GroupPicker value={group} onChange={(g, a, _j) => { setGroup(g); setArch(a) }} />
       </div>
       {error && <p className="text-sm text-fail mb-3">{(error as Error).message}</p>}
       {!group && <p className="text-sm text-muted-foreground">Select a group to view sessions.</p>}
