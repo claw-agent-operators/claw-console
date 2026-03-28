@@ -74,4 +74,5 @@ export interface Session {
   last_active: string
   message_count: number
   summary: string
+  resumable?: boolean
 }
