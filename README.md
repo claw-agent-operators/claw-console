@@ -13,6 +13,7 @@ Web dashboard for [claw](https://github.com/claw-agent-operators/claw). Connects
 | REPL | `WS /ws/agent/:group` | Multi-turn browser REPL with click-to-copy session ID |
 | Sessions | `GET /api/v1/sessions` | Day-based history with resumable Claude session UUIDs, click-to-copy |
 | Groups | `GET /api/v1/groups` | Group cards with transport and architecture badges |
+| Usage | `GET /api/v1/usage` | Per-run token cost dashboard with day-range selector (requires claw >= v0.2.0) |
 
 ## Stack
 
@@ -106,9 +107,11 @@ src/
 │   ├── sessions/
 │   │   ├── SessionList.tsx         # React Query per-group table
 │   │   └── SessionRow.tsx          # click-to-copy session ID, resumable badge
-│   └── groups/
-│       ├── GroupList.tsx           # React Query card grid
-│       └── GroupCard.tsx           # name, transport badge, arch badge, trigger
+│   ├── groups/
+│   │   ├── GroupList.tsx           # React Query card grid
+│   │   └── GroupCard.tsx           # name, transport badge, arch badge, trigger
+│   └── usage/
+│       └── UsageBoard.tsx          # token cost dashboard with summary cards + table
 └── views/                          # page-level wrappers
     ├── HealthView.tsx
     ├── AgentsView.tsx
@@ -116,7 +119,8 @@ src/
     ├── LogsView.tsx
     ├── ReplView.tsx
     ├── SessionsView.tsx
-    └── GroupsView.tsx
+    ├── GroupsView.tsx
+    └── UsageView.tsx
 ```
 
 ## License

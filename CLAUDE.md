@@ -19,7 +19,7 @@ Vite + React 19 + TypeScript SPA. Dark theme only. No backend — connects direc
 - `src/components/ui/` — shadcn/ui primitives (Badge, Button, Card, Input)
 - `src/components/common/` — shared components: `TransportBadge` (WhatsApp/Telegram/Signal/Discord pill)
 - `src/components/layout/` — Sidebar, TopBar (connection dot), ConnectModal (first-time setup)
-- `src/components/{health,agents,watch,logs,repl,sessions,groups}/` — feature components
+- `src/components/{health,agents,watch,logs,repl,sessions,groups,usage}/` — feature components
 - `src/views/` — page-level wrappers that compose feature components
 
 **Data flow:**
@@ -35,5 +35,6 @@ Vite + React 19 + TypeScript SPA. Dark theme only. No backend — connects direc
 - `HealthBoard` — WebSocket consumer that upserts checks into Zustand store, groups by arch
 - `SessionBadge` — truncated session ID with click-to-copy
 - `SessionRow` — click-to-copy session ID, green "resumable" badge for Claude sessions with real UUIDs
+- `UsageBoard` — fetches `GET /api/v1/usage` with day-range selector (24h/7d/30d/90d), renders summary cards (runs, tokens, estimated cost) and a detailed table with per-run token breakdown. Auto-refreshes every 30s via React Query. Requires claw >= v0.2.0.
 
 **Styling:** Tailwind CSS 4 with CSS custom properties for theming. Colors defined in `src/index.css` using oklch. Custom semantic colors: `--color-pass`, `--color-warn`, `--color-fail`. shadcn/ui components use `class-variance-authority` for variants.
